@@ -1,0 +1,87 @@
+﻿<html>
+    <head>
+        <meta charset="utf-8">
+        <title>My Snake game</title>
+        <link id="styles" rel="stylesheet" type="text/css" href="StyleSheet2.css">
+        <script src="snakeJS-1,03.js"></script> 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div id="menu" class="menuCSS">
+            <div v-if="showMenuButtons">
+                <img class="menuImg" src="https://wallpapercave.com/wp/wp2409705.jpg"/>
+                <main-button v-on:play-button="run(mode)" val="Play"></main-button>
+                <div class="dropdown">
+                    <button class="dropbtn" v-on:click="dropDownTab" >{{ modeButton }}</button>
+                    <div id="dropdown" class="dropdown-content">
+                        <mode-buttons v-on:update-mode="setMode" val="regular" ></mode-buttons> 
+                        <mode-buttons v-on:update-mode="setMode" val="snake2" ></mode-buttons> 
+                        <mode-buttons v-on:update-mode="setMode" val="diagonal" ></mode-buttons> 
+                    </div>
+                </div>
+            </div>
+            <div v-if="showBackButton"><button class="btn backCSS" v-on:click="back">{{ backButton }}</button></div>
+            <!-- <div id=game v-if="showCanvas">
+                <canvas class="gameWindow" id="snakeCanvas" width="700" height="400"></canvas>
+            </div> -->
+            <div id="game">
+                <canvas class="gameWindow" id="snakeCanvas" width="700" height="400"></canvas>
+            </div>
+        </div>        
+        <script src="snakeJS-1,03.js"></script> 
+        <script>
+            Vue.component('mode-buttons', {
+                props:['val'],
+                template: '<button v-on:click="click">{{ val }}</button>',
+                methods:{
+                    click(){
+                        this.$emit('update-mode',this.$props.val)
+                    }
+                }
+            })
+            Vue.component('main-button',{
+                props:['val'],
+                template: '<button class="btn play" v-on:click="click" > {{ val }}</button>',
+                methods:{
+                    click(){
+                        this.$emit('play-button')
+                    }
+                }
+            })
+            let mainMenuVue=new Vue({
+                el:'#menu',
+                data:{
+                        playButton:"Play now",
+                        backButton:"Back",
+                        modeButton:"Mode",
+                        showBackButton:false,
+                        mode:"regular",
+                        showMenuButtons :"true",
+                        showCanvas:false
+                },
+                methods:{
+                    run(mode){
+                        this.showBackButton=true;
+                        this.showMenuButtons=false;
+                        this.showCanvas=true;   
+                        runGame(mode);},
+                    back(){
+                        this.showMenuButtons=true;
+                        this.showBackButton=false;
+                        this.showCanvas=false;
+                        backButton();},
+                    order(){
+                        order();},
+                    setMode(val="regular"){
+                        this.mode=val},
+                    dropDownTab(){
+                        dropDownTab()},
+                },
+                // beforeMount(){this.order();},
+            })
+
+        </script>
+    </body>
+</html>
